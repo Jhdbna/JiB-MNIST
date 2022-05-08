@@ -14,7 +14,7 @@ pipeline {
       when { branch "main" }
       steps {
           sh '''
-          echo building ...
+          echo building!
           '''
       }
     }
@@ -23,7 +23,7 @@ pipeline {
         when { branch "main" }
         steps {
             sh '''
-            echo deploying ...
+            echo deploying!
             '''
         }
     }
