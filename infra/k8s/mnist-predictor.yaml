@@ -18,7 +18,7 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: mnist-predictor
-          image: {{REGISTRY_URL}}/{{IMG_NAME}}:0.0.${BUILD_NUMBER}
+          image: {{REGISTRY_URL}}
 ---
 apiVersion: v1
 kind: Service
