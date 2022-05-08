@@ -48,7 +48,7 @@ pipeline {
         steps {
             sh '''
             cd infra/k8s
-            IMG_NAME=jib-mnist:0.0.${BUILD_NUMBER}
+            IMG_NAME=mnist-predictor:0.0.${BUILD_NUMBER}
 
             # replace registry url and image name placeholders in yaml
             sed -i "s/{{REGISTRY_URL}}/$REGISTRY_URL/g" mnist-predictor.yaml
