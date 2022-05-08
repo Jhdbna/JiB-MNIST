@@ -18,7 +18,8 @@ spec:
       terminationGracePeriodSeconds: 30
       containers:
         - name: mnist-predictor
-          image: 352708296901.dkr.ecr.us-east-1.amazonaws.com/jib-mnist/JiB-MNIST
+          image: 352708296901.dkr.ecr.us-east-1.amazonaws.com/jib-mnist/jib-mnist:0.0.${BUILD_NUMBER}
+
 ---
 apiVersion: v1
 kind: Service
