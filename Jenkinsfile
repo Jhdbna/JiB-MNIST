@@ -4,7 +4,7 @@ pipeline {
   environment {
     REGISTRY_URL = '352708296901.dkr.ecr.us-east-1.amazonaws.com/jib-mnist'
     ECR_REGION = 'us-east-1'
-    K8S_NAMESPACE = 'JiB-MNIST'
+    K8S_NAMESPACE = 'jib-mnist'
     K8S_CLUSTER_NAME = 'devops-alfnar-k8s'
     K8S_CLUSTER_REGION = 'eu-north-1'
   }
