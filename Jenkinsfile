@@ -2,7 +2,7 @@ pipeline {
   agent any
 
   environment {
-    REGISTRY_URL = '352708296901.dkr.ecr.us-east-1.amazonaws.com/jib-mnist'
+    REGISTRY_URL = '352708296901.dkr.ecr.us-east-1.amazonaws.com'
     ECR_REGION = 'us-east-1'
     K8S_NAMESPACE = 'jib-mnist'
     K8S_CLUSTER_NAME = 'devops-alfnar-k8s'
@@ -33,7 +33,7 @@ pipeline {
         when { branch "main" }
         steps {
             sh '''
-            IMAGE="mnist-predictor:0.0.${BUILD_NUMBER}"
+            IMAGE="jib-mnist:0.0.${BUILD_NUMBER}"
             cd ml_model
             aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${REGISTRY_URL}
             docker build -t ${IMAGE} .
