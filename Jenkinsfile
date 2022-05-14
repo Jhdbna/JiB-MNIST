@@ -80,6 +80,14 @@ pipeline {
             '''
         }
     }
+//     # Port-forwarding
+//     stage(Forward){
+//         steps{
+//             sh '''
+//             kubectl port-forward <pod> -n $K8S_NAMESPACE 5050:8081
+//             '''
+//      }
+//     }
   }
 }
 
