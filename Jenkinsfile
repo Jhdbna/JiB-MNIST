@@ -80,14 +80,6 @@ pipeline {
             '''
         }
     }
-    stage(forward){
-        steps{
-            sh '''
-            kubectl port-forward mnist-predictor-7679758bdd-b822w -n $K8S_NAMESPACE 5050:8081
-            '''
-
-     }
-    }
   }
 }
 
