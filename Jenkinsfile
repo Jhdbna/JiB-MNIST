@@ -10,11 +10,16 @@ pipeline {
   }
 
   stages {
-    stage('MNIST Web Server - build'){
+   stage('MNIST Web Server - build'){
       when { branch "main" }
       steps {
           sh '''
-          echo building ...
+          image_web="mnist-webserver:0.0.${BUILD_NUMBER}"
+          cd webserver
+          aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${REGISTRY_URL}
+          docker build -t ${image_web} .
+          docker tag ${image_web} ${REGISTRY_URL}/${image_web}
+          docker push ${REGISTRY_URL}/${image_web}
           '''
       }
     }
@@ -23,7 +28,16 @@ pipeline {
         when { branch "main" }
         steps {
             sh '''
-            echo deploying ...
+            cd infra/k8s
+            image_web_name=mnist-webserver:0.0.${BUILD_NUMBER}
+            # replace registry url and image name placeholders in yaml
+            sed -i "s/{{REGISTRY_URL}}/$REGISTRY_URL/g" mnist-webservice.yaml
+            sed -i "s/{{K8S_NAMESPACE}}/$K8S_NAMESPACE/g" mnist-webservice.yaml
+            sed -i "s/{{IMG_NAME}}/$image_web_name/g" mnist-webservice.yaml
+            # get kubeconfig creds
+            aws eks --region ${K8S_CLUSTER_REGION} update-kubeconfig --name ${K8S_CLUSTER_NAME}
+            # apply to your namespace
+            kubectl apply -f mnist-webservice.yaml -n $K8S_NAMESPACE
             '''
         }
     }
