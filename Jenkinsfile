@@ -14,12 +14,12 @@ pipeline {
       when { branch "main" }
       steps {
           sh '''
-          webserver-image="jib-mnist-webserver:0.0.${BUILD_NUMBER}"
+          image_web="jib-mnist-webserver:0.0.${BUILD_NUMBER}"
           cd webserver
           aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${REGISTRY_URL}
-          docker build -t ${webserver-image} .
-          docker tag ${image_web} ${REGISTRY_URL}/${webserver-image}
-          docker push ${REGISTRY_URL}/${webserver-image}
+          docker build -t ${image_web} .
+          docker tag ${image_web} ${REGISTRY_URL}/${image_web}
+          docker push ${REGISTRY_URL}/${image_web}
           '''
       }
     }
@@ -29,11 +29,11 @@ pipeline {
         steps {
             sh '''
             cd infra/k8s
-            webserver-image=jib-mnist-webserver:0.0.${BUILD_NUMBER}
+            image_web_name=jib-mnist-webserver:0.0.${BUILD_NUMBER}
             # replace registry url and image name placeholders in yaml
             sed -i "s/{{REGISTRY_URL}}/$REGISTRY_URL/g" mnist-webservice.yaml
             sed -i "s/{{K8S_NAMESPACE}}/$K8S_NAMESPACE/g" mnist-webservice.yaml
-            sed -i "s/{{IMG_NAME}}/$webserver-image/g" mnist-webservice.yaml
+            sed -i "s/{{IMG_NAME}}/$image_web_name/g" mnist-webservice.yaml
             # get kubeconfig creds
             aws eks --region ${K8S_CLUSTER_REGION} update-kubeconfig --name ${K8S_CLUSTER_NAME}
             # apply to your namespace
