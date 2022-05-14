@@ -14,7 +14,7 @@ pipeline {
       when { branch "main" }
       steps {
           sh '''
-          image_web="mnist-webserver:0.0.${BUILD_NUMBER}"
+          image_web="jib-mnist-webserver:0.0.${BUILD_NUMBER}"
           cd webserver
           aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin ${REGISTRY_URL}
           docker build -t ${image_web} .
@@ -29,7 +29,7 @@ pipeline {
         steps {
             sh '''
             cd infra/k8s
-            image_web_name=mnist-webserver:0.0.${BUILD_NUMBER}
+            image_web_name=jib-mnist-webserver:0.0.${BUILD_NUMBER}
             # replace registry url and image name placeholders in yaml
             sed -i "s/{{REGISTRY_URL}}/$REGISTRY_URL/g" mnist-webservice.yaml
             sed -i "s/{{K8S_NAMESPACE}}/$K8S_NAMESPACE/g" mnist-webservice.yaml
