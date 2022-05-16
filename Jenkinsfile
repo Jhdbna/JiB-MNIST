@@ -7,7 +7,6 @@ pipeline {
     K8S_NAMESPACE = 'jib-mnist'
     K8S_CLUSTER_NAME = 'devops-alfnar-k8s'
     K8S_CLUSTER_REGION = 'eu-north-1'
-    SERVER_POD = 'mnist-webserver-984b897b9-x8bqf'
   }
 
   stages {
@@ -82,13 +81,6 @@ pipeline {
         }
     }
 
-    stage('Port Forward'){
-        steps{
-            sh '''
-            kubectl port-forward $SERVER_POD -n $K8S_NAMESPACE 5050:8081
-            '''
-     }
-    }
   }
 }
 
