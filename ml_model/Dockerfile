@@ -1,4 +1,4 @@
-FROM python:3.9.12-slim-buster
+FROM python:3.12.0b1-slim-buster
 WORKDIR /app
 COPY . .
 RUN apt-get update
