@@ -1,5 +1,5 @@
 flask
-keras==2.8.0
+keras==2.13.1rc0
 numpy==1.22.3
 opencv-python==4.5.5.64
 scikit-learn==1.0.2
